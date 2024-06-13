@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: 
+      context: ./client/swiftsci
+    ports:
+      - 3000:3000
+    volumes: 
+      - ./client/swiftsci:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+    
+
+  backend:
+    build: 
+      context: ./server
+    ports:
+      - 5000:5000
+    volumes: 
+      - ./server:/app
+    environment:
+      - FLASK_ENV=development
+      - FLASK_DEBUG=1  
+
+
+  

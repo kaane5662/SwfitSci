@@ -1,0 +1,18 @@
+services:
+  - type: web
+    runtime: docker
+    name: swiftsci-backend
+    repo: https://github.com/kaane5662/swift-sci-backend
+    plan: free
+    dockerfilePath: Dockerfile
+    autoDeploy: false
+    # dockerCommand: | 
+    #   docker build -t swiftsci-backend .
+    #   docker run -d -p 5000:5000 swiftsci-backend
+    # scaling: # Autoscaling configuration
+    #   minInstances: 1
+    #   maxInstances: 3
+    #   targetMemoryPercent: 30 # Optional if targetCPUPercent is set
+    #   targetCPUPercent: 50    # Optional if targetMemory is set
+
+

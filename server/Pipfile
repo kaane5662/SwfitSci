@@ -1,0 +1,26 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+selenium = "*"
+astrapy = "*"
+langchain = "*"
+langchain-astradb = "*"
+langchain-openai = "*"
+python-dotenv = "*"
+pypdf = "*"
+flask = "*"
+flask-cors = "*"
+flask-jwt-extended = "*"
+bcrypt = "*"
+pyjwt = "*"
+stripe = "*"
+mongoengine = "*"
+authlib = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.11"

@@ -1,0 +1,15 @@
+{
+    "family": "swiftsci-task-family",
+    "containerDefinitions": [
+      {
+        "name": "swiftsci",
+        "image": "swiftsci",
+        "portMappings": [
+          {
+            "containerPort": 5000,
+            "hostPort": 80
+          }
+        ]
+      }
+    ]
+  }

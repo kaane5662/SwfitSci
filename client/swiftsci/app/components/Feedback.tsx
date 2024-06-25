@@ -15,7 +15,7 @@ export default function Feedback(){
 
     return(
         <div className="col-span-2 p-4 flex flex-col gap-4">
-            <button onClick={} className="bg-complementary text-primary text-sm p-2 rounded-xl">Generate Feedback</button>
+            <button className="bg-complementary text-primary text-sm p-2 rounded-xl">Generate Feedback</button>
         </div>
     )
 }

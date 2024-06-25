@@ -32,11 +32,11 @@ export default function Login(){
                 <Link className="text-sm hover:underline text-complementary text-right -my-3" href={"/"}>Forgot Password</Link>
                 
                 <button className="bg-complementary text-primary rounded-md p-4 hover:opacity-70 text-lg">Log in</button>
-                <Link className="text-sm text-center     -my-3" href={"/signup"}>Don't have an account? <span className="text-complementary hover:underline">Sign Up</span></Link>
+                <Link className="text-sm text-center     -my-3" href={"/signup"}>Don not have an account? <span className="text-complementary hover:underline">Sign Up</span></Link>
                 <div className="flex gap-8 justify-center items-center">
                     <FaGoogle onClick={oauth}  className="h-12 hover:cursor-pointer w-12 p-2 rounded-xl bg-white text-secondary"></FaGoogle>   
                     <FaFacebook className="h-12 w-12 p-2 rounded-xl bg-white text-secondary"></FaFacebook>
-
+                    
                 </div>
 
             </form>

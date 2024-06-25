@@ -5,9 +5,12 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain_community.callbacks import get_openai_callback
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_anthropic import ChatAnthropic
 import requests
+import os
 
-llm = ChatOpenAI(api_key=OPENAI_API_KEY)
+# llm = ChatAnthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"), model_name="model='claude-3-opus-20240229'")
+llm = ChatOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 embeddings = OpenAIEmbeddings(api_key=OPENAI_API_KEY)
 
 class Generator():
@@ -16,10 +19,7 @@ class Generator():
             retriever = vstore.as_retriever(search_type="mmr", search_kwargs={"k":5}, embedding_function=embeddings.embed_query)    
             # print(data)
             
-            similar = retriever.invoke(data)
-            samples = ""
-            for idx, paragraph in enumerate(similar):
-                samples += f"\nExample {idx + 1}:\n{paragraph.page_content}\n"
+            
             # print(samples)
             generator_template = """
                 You are a ressearch professor and a scientist who assists in crafting the perfect scientific research paper. Your goal is to write your own take of the introduction of this paper. This is where you describe briefly and clearly why you are writing the paper. The introduction supplies sufficient background information for the reader to understand and evaluate the experiment you did. It also supplies a rationale for the study.
@@ -52,7 +52,7 @@ class Generator():
                 | llm
                 | StrOutputParser()
             )
-            answer = chain.invoke({"input":data,"samples":samples, "task": task})
+            answer = chain.invoke({"input":data,"samples":retriever, "task": task})
             return answer, cb.total_tokens
     
     def generate_methodology(data, task):
@@ -60,10 +60,7 @@ class Generator():
             retriever = vstore.as_retriever(search_type="mmr", search_kwargs={"k":5}, embedding_function=embeddings.embed_query)    
             print(data)
             
-            similar = retriever.invoke(data)
-            samples = ""
-            for idx, paragraph in enumerate(similar):
-                samples += f"\nExample {idx + 1}:\n{paragraph.page_content}\n"
+            
             generator_template = """
                 You are a ressearch professor and a scientist who assists in crafting the perfect scientific research paper. Your goal is to only write the Materials and Methods of this paper. The purpose is to provide enough detail that a competent worker could repeat the experiment. Many of your readers will skip this section because they already know from the Introduction the general methods you used. However careful writing of this section is important because for your results to be of scientific merit they must be reproducible. Otherwise your paper does not represent good science.
 
@@ -95,7 +92,7 @@ class Generator():
                 | llm
                 | StrOutputParser()
             )
-            answer = chain.invoke({"input":data,"samples":samples, "task": task})
+            answer = chain.invoke({"input":data,"samples":retriever, "task": task})
             return answer, cb.total_tokens
     
     def generate_results(data, task):
@@ -103,10 +100,7 @@ class Generator():
             retriever = vstore.as_retriever(search_type="mmr", search_kwargs={"k":5}, embedding_function=embeddings.embed_query)    
             print(data)
             
-            similar = retriever.invoke(data)
-            samples = ""
-            for idx, paragraph in enumerate(similar):
-                samples += f"\nExample {idx + 1}:\n{paragraph.page_content}\n"
+            
             generator_template = """
                 You are a ressearch professor and a scientist who assists in crafting the perfect scientific research paper. Your goal is to only write the Results of this paper. This is the core of the paper. Don't start the results sections with methods you left out of the Materials and Methods section. You need to give an overall description of the experiments and present the data you found.
 
@@ -142,7 +136,7 @@ class Generator():
                 | llm
                 | StrOutputParser()
             )
-            answer = chain.invoke({"input":data,"samples":samples, "task":task})
+            answer = chain.invoke({"input":data,"samples":retriever, "task":task})
             return answer, cb.total_tokens
     
 
@@ -151,10 +145,7 @@ class Generator():
             retriever = vstore.as_retriever(search_type="mmr", search_kwargs={"k":5}, embedding_function=embeddings.embed_query)    
             print(data)
             
-            similar = retriever.invoke(data)
-            samples = ""
-            for idx, paragraph in enumerate(similar):
-                samples += f"\nExample {idx + 1}:\n{paragraph.page_content}\n"
+            
             generator_template = """
                 You are a ressearch professor and a scientist who assists in crafting the perfect scientific research paper. Your goal is to only write the Discussion of this paper. This is is usually the hardest section to write. You are trying to bring out the true meaning of your data without being too long. Do not use words to conceal your facts or reasoning. Also do not repeat your results, this is a discussion.
 
@@ -187,17 +178,14 @@ class Generator():
                 | llm
                 | StrOutputParser()
             )
-            answer = chain.invoke({"input":data,"samples":samples, "task": task})
+            answer = chain.invoke({"input":data,"samples":retriever, "task": task})
             return answer, cb.total_tokens
     def generate_conclusion(data, task):
         with get_openai_callback() as cb:
             retriever = vstore.as_retriever(search_type="mmr", search_kwargs={"k":5}, embedding_function=embeddings.embed_query)    
             print(data)
             
-            similar = retriever.invoke(data)
-            samples = ""
-            for idx, paragraph in enumerate(similar):
-                samples += f"\nExample {idx + 1}:\n{paragraph.page_content}\n"
+            
             generator_template = """
                 You are a ressearch professor and a scientist who assists in crafting the perfect scientific research paper. Your goal is to only write the Conclusion of this paper. A well-written conclusion provides you with several important opportunities to demonstrate your overall understanding of the research problem to the reader. 
                 
@@ -225,7 +213,41 @@ class Generator():
                 | llm
                 | StrOutputParser()
             )
-            answer = chain.invoke({"input":data,"samples":samples, "task": task})
+            answer = chain.invoke({"input":data,"samples":retriever, "task": task})
+            return answer, cb.total_tokens
+        
+    def generate_custom(data, text_input, custom_task):
+        print(data)
+        print(text_input)
+        print(custom_task)
+        with get_openai_callback() as cb:
+            retriever = vstore.as_retriever(search_type="mmr", search_kwargs={"k":5}, embedding_function=embeddings.embed_query)  
+            generator_template = """
+                You are a ressearch professor and a scientist who assists in crafting the perfect scientific research paper. Your goal is to ONLY rewrite or paraphrase the given INPUT based on the CUSTOM TASK. Keep in mind you still need to tailor your answer to the given DATA and keep the sentence length around the same as INPUT. 
+                
+                SAMPLES:
+                {samples}
+
+                DATA:
+                {data}
+
+                INPUT:
+                {text_input}
+
+                CUSTOM TASK:
+                {custom_task}
+
+
+                YOUR ANSWER:"""
+            summary_prompt = ChatPromptTemplate.from_template(generator_template)
+            chain = (
+                # {"samples": retriever}
+                summary_prompt
+                | llm
+                | StrOutputParser()
+            )
+            answer = chain.invoke({"data":data,"samples":retriever, "custom_task": custom_task, "text_input": text_input})
+            print(answer)
             return answer, cb.total_tokens
         
     def generate_header(data, header:str):

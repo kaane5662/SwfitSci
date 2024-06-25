@@ -19,6 +19,9 @@ pyjwt = "*"
 stripe = "*"
 mongoengine = "*"
 authlib = "*"
+cssselect2 = "*"
+html5lib = "*"
+xhtml2pdf = "*"
 
 [dev-packages]
 

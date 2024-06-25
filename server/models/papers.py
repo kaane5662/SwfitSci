@@ -1,5 +1,5 @@
-from mongoengine import Document, StringField,IntField,DecimalField, BooleanField
-
+from mongoengine import Document, StringField,IntField,DecimalField, BooleanField, DateField
+import datetime
 class Paper(Document):
     owner_id = StringField(required=True)
     title = StringField(required=True)
@@ -14,13 +14,13 @@ class Paper(Document):
     control_groups = StringField(required=False)
     participants = StringField(required=False)
     sampling_method = StringField(required=False)
+    created_at = StringField(default=str(datetime.date.today()))
+    content = StringField(required=True)
     
-    
-    
-    introduction = StringField(required=True)
-    methodology = StringField(required=True)
-    # analysis = StringField(required=True)
-    results = StringField(required=True)
-    discussion = StringField(required=True)
-    conclusion = StringField(required=True)
-    references = StringField( default="")
+    # introduction = StringField(required=True)
+    # methodology = StringField(required=True)
+    # # analysis = StringField(required=True)
+    # results = StringField(required=True)
+    # discussion = StringField(required=True)
+    # conclusion = StringField(required=True)
+    # references = StringField( default="")

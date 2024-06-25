@@ -7,7 +7,7 @@ interface props{
     icon:IconBaseProps
 }
 
-export default function WhyBullet({icon, title, children}:props){
+export default function WhyBullet({icon, title, children}:any){
     return(
         <div className="flex gap-8">
             <h1>{icon}</h1>

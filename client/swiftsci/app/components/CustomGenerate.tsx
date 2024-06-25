@@ -57,7 +57,7 @@ export default function CustomGenerate({editorRef,id}:any){
     
         const quill = editorRef.current.getEditor();
     
-        const handleMouseUp = (event) => {
+        const handleMouseUp = (event:any) => {
           if (editorRef.current && editorRef.current.editor.root.contains(event.target)) {
             setCustomText("")
             const range = quill.getSelection();

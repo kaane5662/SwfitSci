@@ -23,7 +23,7 @@ export default function PricingPlan({name, desc, features, price}:any){
             </div>
             <button onClick={subscribe} className="bg-gradient-to-tr hover:opacity-50 -opacity-50 from-secondary to-complementary text-primary  rounded-md p-4">{price == 0 ? "Get Started For Free":"Subscribe"}</button>
             <div className="flex flex-col gap-2">
-                {features.map((feature,index)=>{
+                {features.map((feature:Array<String>,index:number)=>{
                     return(
                         <p key={index} className="text-sm text-secondary text-opacity-50 flex items-center gap-4"><FaCircleCheck></FaCircleCheck> {feature}</p>
                     )

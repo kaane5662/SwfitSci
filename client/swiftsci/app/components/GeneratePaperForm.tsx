@@ -1,5 +1,4 @@
 "use client"
-import Figure from "@/app/components/Generate/Figure";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 

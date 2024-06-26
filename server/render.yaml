@@ -2,11 +2,11 @@ services:
   - type: web
     runtime: docker
     name: swiftsci-backend
-    repo: https://github.com/kaane5662/swift-sci-backend
+    repo: https://github.com/kaane5662/SwfitSci
     plan: free
     dockerfilePath: Dockerfile.prod
     autoDeploy: true
-    
+
 
     # dockerCommand: | 
     #   docker build -t swiftsci-backend .

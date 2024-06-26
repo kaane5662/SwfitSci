@@ -41,7 +41,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: kaane0169/swiftsci-backend:latest
+          tags: kaane0169/swiftsci-backend-prod:latest
           context: ./server
           file: ./server/Dockerfile.prod
 
@@ -52,10 +52,10 @@ jobs:
           ssh -o StrictHostKeyChecking=no -i ssh_key.pem ec2-user@${{ secrets.EC2_HOST }} 'bash -s' << 'ENDSSH'
 
             
-            sudo docker pull kaane0169/swiftsci-backend:latest
-            sudo docker stop swiftsci-backend || true
-            sudo docker rm swiftsci-backend || true
-            sudo docker run -d --name swiftsci-backend -p 80:5000 --env-file ./.env kaane0169/swiftsci-ec2
+            sudo docker pull kaane0169/swiftsci-backend-prod:latest
+            sudo docker stop swiftsci-backend-prod || true
+            sudo docker rm swiftsci-backend-prod || true
+            sudo docker run -d --name swiftsci-backend -p 80:5000 --env-file ./.env kaane0169/swiftsci-backend-prod
 
           ENDSSH
 

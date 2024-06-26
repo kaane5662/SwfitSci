@@ -22,6 +22,7 @@ import GeneratePaperForm from "@/app/components/GeneratePaperForm"
 import "./paper.css"
 import { FaPencil, FaWeightScale } from "react-icons/fa6"
 import CustomGenerate from "@/app/components/CustomGenerate"
+import RegeneratePaper from "@/app/components/Popups/RegeneratePaper"
 // import 'react-quill/dist/quill.bubble.css';
 // import 'react-quill/dist/quill.core.css';
 
@@ -36,6 +37,7 @@ export default function Paper(){
     const [popupPosition, setPopupPosition] = useState({ top: 0, left: 0 });
     const [showPopup, setShowPopup] = useState(false);
     const [deletePopUp, setDeletePopUp] = useState(false);
+    const [regeneratePopUp, setRegeneratePopUp] = useState(false);
     const [editDetailsForm, setEditDetailsForm] = useState(false);
     // const editorRef = useRef()
 
@@ -179,6 +181,7 @@ export default function Paper(){
                 <div className=" self-center justify-center flex ">
                     {deletePopUp && <DeletePaper deletePaper={deletePaper} setActive={setDeletePopUp}></DeletePaper>}
                     {editDetailsForm && <GeneratePaperForm  Data={Paper} setActive={setEditDetailsForm}></GeneratePaperForm>}
+                    {regeneratePopUp && <RegeneratePaper  id={id} setActive={setRegeneratePopUp}></RegeneratePaper>}
                     {/* navbar */}
                     <div className="fixed bg-white w-[80%] z-20 top-0 border-b-2 border-secondary border-opacity-10   ">
                       <div className="  flex justify-between p-4 items-center">
@@ -188,11 +191,11 @@ export default function Paper(){
                             </div>
                           <div className="flex gap-8 items-center justify-center">
                             {/* <button></button> */}
-                            <FaRedo className="hover:cursor-pointer" size={15} onClick={()=>setDeletePopUp(true)} >  Regenerate</FaRedo>
-                            <FaTrash className="hover:cursor-pointer" size={15} onClick={()=>setDeletePopUp(true)} >  Delete</FaTrash>
-                            <FaPencil className="hover:cursor-pointer" size={15} onClick={()=>setEditDetailsForm(true)}>  Edit Details</FaPencil>
+                            <FaRedo className="hover:cursor-pointer hover:bg-secondary hover:bg-opacity-10 duration-300 rounded-md p-1" size={23} onClick={()=>setRegeneratePopUp(true)} >  Regenerate</FaRedo>
+                            <FaTrash className="hover:cursor-pointer hover:bg-secondary hover:bg-opacity-10 duration-300 rounded-md p-1" size={23} onClick={()=>setDeletePopUp(true)} >  Delete</FaTrash>
+                            <FaPencil className="hover:cursor-pointer hover:bg-secondary hover:bg-opacity-10 duration-300 rounded-md p-1" size={23} onClick={()=>setEditDetailsForm(true)}>  Edit Details</FaPencil>
                             <form className="flex items-center justify-center" action={downloadPaper}>
-                                <button className="  "><FaDownload size={15}/>  </button>
+                                <button className="  "><FaDownload className="hover:cursor-pointer hover:bg-secondary hover:bg-opacity-10 duration-300 rounded-md p-1" size={23}/>  </button>
                             </form>
                             <form className="flex items-center justify-center" action={editPaper}>
                                 <button className="flex gap-2 bg-complementary text-primary hover:opacity-50 p-2 px-4 rounded-md text-sm items-center "><FaSave size={15}/> Save</button>

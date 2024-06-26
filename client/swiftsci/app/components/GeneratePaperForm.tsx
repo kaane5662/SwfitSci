@@ -41,7 +41,7 @@ export default function GeneratePaperForm({setActive, Data}:any){
         }).then((response)=>{
             setGenerating(false)
             // setActive(false)
-            router.push(`/papers`)
+            window.location.reload()
             
 
         }).catch((error)=>{
@@ -72,7 +72,7 @@ export default function GeneratePaperForm({setActive, Data}:any){
     }
 
     return(
-        <div className=" bg-secondary bg-opacity-50   w-full h-screen z-50 absolute flex justify-center  text-secondary">
+        <div className=" bg-secondary bg-opacity-50   w-full h-screen z-50 fixed flex justify-center  text-secondary">
             <div className="relative w-[50%] self-center p-12 h-[600px] z-40 bg-white overflow-y-scroll rounded-md">
 
                 <form onSubmit={Data ? updateInfo:generateResult} className=" flex flex-col gap-4 relative  ">

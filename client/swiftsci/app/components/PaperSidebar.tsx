@@ -50,7 +50,7 @@ export default function PaperSidebar(){
     return(
         <React.Fragment>
         {formActive && <GeneratePaperForm setActive={setFormActive}></GeneratePaperForm>}
-        <nav className=" h-screen  bg-secondary w-[20%] flex justify-center">
+        <nav className=" h-screen  bg-secondary w-[20%] flex justify-center overflow-hidden">
             {User? (<div className="w-fit gap-16 sticky  h-screen  flex flex-col text-primary   ">
                 {/* left */}
                 

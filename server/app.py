@@ -21,7 +21,7 @@ app.register_blueprint(webhooks_bp)
 app.secret_key = os.environ.get("SERVER_SECRET")
 
 app.config.update(
-    SESSION_COOKIE_SECURE=False,  # Set to True if using HTTPS
+    SESSION_COOKIE_SECURE= True if os.environ.get("PRODUCTION") else False,  # Set to True if using HTTPS
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE='Lax'  # Adjust based on your needs
 )
@@ -45,7 +45,7 @@ oauth.register(
     server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
 )
 
-CORS(app, origins=["http://localhost:3000"], supports_credentials=True)
+CORS(app, origins=["http://localhost:3000", "https://swfit-sci.vercel.app"], supports_credentials=True)
 
 @app.route('/login/<provider>')
 def oauth_login(provider):
@@ -66,7 +66,8 @@ def authorize(provider):
     else:
         create_profile(user_info["email"],"test123589","test123589",True)
     # session["user"] = user_info
-    return redirect("http://localhost:3000/papers")
+    print(os.environ.get('CLIENT_DOMAIN'))
+    return redirect(f"{os.environ.get('CLIENT_DOMAIN')}/papers")
     # return jsonify({"message":"Authorization success!"}), 201
     # user = client.parse_id_token(token,claims_options={
     #             'iss': {'values': ['https://accounts.google.com']}

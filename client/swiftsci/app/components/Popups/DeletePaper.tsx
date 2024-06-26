@@ -1,6 +1,6 @@
 export default function DeletePaper({deletePaper, setActive}:any){
     return(
-        <div className=" absolute flex z-50 h-screen bg-secondary justify-center w-full bg-opacity-50">
+        <div className=" fixed flex z-50 h-screen bg-secondary justify-center w-full bg-opacity-50">
             <div className="p-4 flex flex-col gap-8 h-fit my-40 bg-white rounded-md ">
                 <h1 className="text-3xl text-center font-bold">Delete Paper</h1>
                 <h1 className="text-md">Are you sure you want to delete this paper? This action cannot be undone.</h1>

@@ -232,9 +232,14 @@ def regenerate(id):
     try:
         # print("hello")
         user = Profile.objects(id=session["user"]["id"]).first()
+        if user.tokens > user.limit_tokens:  return jsonify({"message": f"Token limit exceeded"}), 401
         paper = Paper.objects(owner_id=session["user"]["id"], id = id).first()
+        new_data = paper.to_mongo().to_dict()
+        del new_data["_id"] 
+        del new_data["created_at"] 
+        del new_data["content"]
         # result, tokens = "", 0
-        new_data = paper.to_dict(flat=True)
+        
         new_data = json.dumps(new_data)
         intro,tokenI = Generator.generate_intro(new_data, tasks.generate)
         methods, tokenM = Generator.generate_methodology(new_data, tasks.generate)
@@ -262,6 +267,7 @@ def custom_prompt(id):
     print(custom_task)
     try:
         user = Profile.objects(id=session["user"]["id"]).first()
+        if user.tokens > user.limit_tokens:  return jsonify({"message": f"Token limit exceeded"}), 401
         paper = Paper.objects(owner_id=session["user"]["id"], id = id).first()
         paper = paper.to_mongo().to_dict()
         del paper["_id"] 

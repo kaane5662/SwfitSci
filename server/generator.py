@@ -16,8 +16,8 @@ embeddings = OpenAIEmbeddings(api_key=OPENAI_API_KEY)
 class Generator():
     def generate_intro(data, task):
         with get_openai_callback() as cb:
-            retriever = vstore.as_retriever(search_type="mmr", search_kwargs={"k":5}, embedding_function=embeddings.embed_query)    
-            # print(data)
+            retriever = vstore.as_retriever( search_kwargs={"filter":{"header":"introduction"}})    
+            # 
             
             
             # print(samples)
@@ -44,7 +44,7 @@ class Generator():
                 {task}
 
 
-                INTRODUCTION:"""
+                YOUR ANSWER:"""
             summary_prompt = ChatPromptTemplate.from_template(generator_template)
             chain = (
                 # {"samples": retriever}
@@ -53,12 +53,13 @@ class Generator():
                 | StrOutputParser()
             )
             answer = chain.invoke({"input":data,"samples":retriever, "task": task})
+            print(answer)
             return answer, cb.total_tokens
     
     def generate_methodology(data, task):
         with get_openai_callback() as cb:
-            retriever = vstore.as_retriever(search_type="mmr", search_kwargs={"k":5}, embedding_function=embeddings.embed_query)    
-            print(data)
+            retriever = vstore.as_retriever( search_kwargs={"filter":{"header":"methodology"}})        
+            
             
             
             generator_template = """
@@ -84,7 +85,7 @@ class Generator():
                 YOUR TASK:
                 {task}
 
-                METHODOLOGY:"""
+                YOUR ANSWER:"""
             summary_prompt = ChatPromptTemplate.from_template(generator_template)
             chain = (
                 # {"samples": retriever}
@@ -93,12 +94,13 @@ class Generator():
                 | StrOutputParser()
             )
             answer = chain.invoke({"input":data,"samples":retriever, "task": task})
+            print(answer)
             return answer, cb.total_tokens
     
     def generate_results(data, task):
         with get_openai_callback() as cb:
-            retriever = vstore.as_retriever(search_type="mmr", search_kwargs={"k":5}, embedding_function=embeddings.embed_query)    
-            print(data)
+            retriever = vstore.as_retriever( search_kwargs={"filter":{"header":"results"}})      
+            
             
             
             generator_template = """
@@ -128,7 +130,7 @@ class Generator():
                 YOUR TASK: 
                 {task}
 
-                RESULTS:"""
+                YOUR ANSWER:"""
             summary_prompt = ChatPromptTemplate.from_template(generator_template)
             chain = (
                 # {"samples": retriever}
@@ -137,13 +139,14 @@ class Generator():
                 | StrOutputParser()
             )
             answer = chain.invoke({"input":data,"samples":retriever, "task":task})
+            print(answer)
             return answer, cb.total_tokens
     
 
     def generate_discussion(data, task):
         with get_openai_callback() as cb:
-            retriever = vstore.as_retriever(search_type="mmr", search_kwargs={"k":5}, embedding_function=embeddings.embed_query)    
-            print(data)
+            retriever = vstore.as_retriever( search_kwargs={"filter":{"header":"discussion"}})      
+            
             
             
             generator_template = """
@@ -170,7 +173,7 @@ class Generator():
                 {task}
 
 
-                DISCUSSION:"""
+                YOUR ANSWER:"""
             summary_prompt = ChatPromptTemplate.from_template(generator_template)
             chain = (
                 # {"samples": retriever}
@@ -179,11 +182,14 @@ class Generator():
                 | StrOutputParser()
             )
             answer = chain.invoke({"input":data,"samples":retriever, "task": task})
+            print(answer)
             return answer, cb.total_tokens
+        
+
     def generate_conclusion(data, task):
         with get_openai_callback() as cb:
-            retriever = vstore.as_retriever(search_type="mmr", search_kwargs={"k":5}, embedding_function=embeddings.embed_query)    
-            print(data)
+            retriever = vstore.as_retriever( search_kwargs={"filter":{"header":"conclusion"}})    
+            
             
             
             generator_template = """
@@ -205,7 +211,7 @@ class Generator():
                 YOUR TASK:
                 {task}
 
-                CONCLUSION:"""
+                YOUR ANSWER:"""
             summary_prompt = ChatPromptTemplate.from_template(generator_template)
             chain = (
                 # {"samples": retriever}
@@ -214,10 +220,11 @@ class Generator():
                 | StrOutputParser()
             )
             answer = chain.invoke({"input":data,"samples":retriever, "task": task})
+            print(answer)
             return answer, cb.total_tokens
         
     def generate_custom(data, text_input, custom_task):
-        print(data)
+        
         print(text_input)
         print(custom_task)
         with get_openai_callback() as cb:

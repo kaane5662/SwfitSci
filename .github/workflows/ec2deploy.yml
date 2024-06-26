@@ -55,7 +55,7 @@ jobs:
             sudo docker pull kaane0169/swiftsci-backend-prod:latest
             sudo docker stop swiftsci-backend-prod || true
             sudo docker rm swiftsci-backend-prod || true
-            sudo docker run -d --name swiftsci-backend -p 80:5000 --env-file ./.env kaane0169/swiftsci-backend-prod
+            sudo docker run -d --name swiftsci-backend-prod -p 80:5000 --env-file ./.env kaane0169/swiftsci-backend-prod
 
           ENDSSH
 

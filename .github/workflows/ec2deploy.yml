@@ -43,7 +43,7 @@ jobs:
           push: true
           tags: kaane0169/swiftsci-backend:latest
           context: ./server
-          file: ./server/Dockerfile
+          file: ./server/Dockerfile.prod
 
       - name: Retrieve and Run Docker Images on EC2
         run: |

@@ -23,7 +23,7 @@ app.secret_key = os.environ.get("SERVER_SECRET")
 app.config.update(
     SESSION_COOKIE_SECURE= True if os.environ.get("PRODUCTION") else False,  # Set to True if using HTTPS
     SESSION_COOKIE_HTTPONLY=True,
-    SESSION_COOKIE_SAMESITE='Lax'  # Adjust based on your needs
+    SESSION_COOKIE_SAMESITE='None'  # Adjust based on your needs
 )
 
 # app.json_encoder = CustomJSONEncoder
